@@ -2,6 +2,7 @@
 #define __INVEST_HPP__
 
 #include <iostream>
+#include <vector>
 
 class Invest
 {
@@ -16,11 +17,13 @@ class Invest
 
         bool _beginWithdrawals;
 
+        std::vector<std::string> _finalUiText;
+
     public:
         Invest(int32_t, int32_t, int32_t);
         ~Invest();
 
-        void run();
+        std::vector<std::string> run();
 
     private:
         double calculateInvestmentYear(int);

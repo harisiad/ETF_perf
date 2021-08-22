@@ -24,15 +24,16 @@ _beginWithdrawals{false}
     }
 }
 
-void Invest::run()
+std::vector<std::string> Invest::run()
 {
-    Gui window();
     std::cout << "Running..." << std::endl;
     for (int currentYear = 1; currentYear <= _yearsOfInvestment; currentYear++) {
         _currentMoney = calculateInvestmentYear(currentYear);
 
         yearlyReport(currentYear);
     }
+
+    return _finalUiText;
 }
 
 double Invest::calculateInvestmentYear(int currentYear)
@@ -56,10 +57,10 @@ double Invest::calculateInvestmentYear(int currentYear)
 
 void Invest::yearlyReport(int currentYear)
 {
-    std::cout << "*************************" << std::endl;
-    std::cout << "Current Year: " << currentYear << std::endl;
-    std::cout << "Current Money: " << _currentMoney << std::endl;
-    std::cout << "Current Year Winnings: " << _currentYearWinnings << std::endl;
+    _finalUiText.push_back("*************************");
+    _finalUiText.push_back("Current Year: " + std::to_string(currentYear));
+    _finalUiText.push_back("Current Money: " + std::to_string(_currentMoney));
+    _finalUiText.push_back("Current Year Winnings: " + std::to_string(_currentYearWinnings));
 }
 
 void Invest::accountYearlyWithdraw()

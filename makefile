@@ -9,7 +9,7 @@ CC = g++
 COMPILER_FLAGS = -w
 
 #LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -lSDL2 -I /usr/local/boost_1_61_0/boost -lpthread
+LINKER_FLAGS = -lSDL2 -lSDL2_ttf -lboost_log -lpthread
 
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = etf

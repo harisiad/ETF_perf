@@ -1,6 +1,6 @@
 #include <boost/container/vector.hpp>
 #include <iostream>
-#include "invest.hpp"
+#include "gui.hpp"
 
 int main(int argc, char const *argv[])
 {
@@ -13,6 +13,13 @@ int main(int argc, char const *argv[])
         addedInvestmentMoneyPerYear = atoi(argv[2]);
     }
 
-    (new Invest(startingMoney, yearOfInvest, addedInvestmentMoneyPerYear))->run();
+    (new Gui(
+        new Invest(
+            startingMoney,
+            yearOfInvest,
+            addedInvestmentMoneyPerYear
+        )
+    ))->run();
+
     return 0;
 }
