@@ -59,8 +59,8 @@ void Invest::yearlyReport(int currentYear)
 {
     _finalUiText.push_back("*************************");
     _finalUiText.push_back("Current Year: " + std::to_string(currentYear));
-    _finalUiText.push_back("Current Money: " + std::to_string(_currentMoney));
-    _finalUiText.push_back("Current Year Winnings: " + std::to_string(_currentYearWinnings));
+    _finalUiText.push_back("Current Money: " + std::to_string((int)_currentMoney));
+    _finalUiText.push_back("Current Year Winnings: " + std::to_string((int)_currentYearWinnings));
 }
 
 void Invest::accountYearlyWithdraw()
