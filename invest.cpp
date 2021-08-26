@@ -24,7 +24,7 @@ _beginWithdrawals{false}
     }
 }
 
-std::vector<std::string> Invest::run()
+boost::container::vector<std::string> Invest::run()
 {
     std::cout << "Running..." << std::endl;
     for (int currentYear = 1; currentYear <= _yearsOfInvestment; currentYear++) {
