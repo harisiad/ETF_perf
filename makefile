@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = gui.cpp invest.cpp etf.cpp
+OBJS = gui.cpp invest.cpp etf.cpp textBoxGui.cpp
 
 #CC specifies which compiler we're using
 CC = g++

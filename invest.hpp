@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <boost/container/vector.hpp>
 
 class Invest
 {
@@ -17,13 +18,13 @@ class Invest
 
         bool _beginWithdrawals;
 
-        std::vector<std::string> _finalUiText;
+        boost::container::vector<std::string> _finalUiText;
 
     public:
         Invest(int32_t, int32_t, int32_t);
         ~Invest();
 
-        std::vector<std::string> run();
+        boost::container::vector<std::string> run();
 
     private:
         double calculateInvestmentYear(int);

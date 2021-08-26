@@ -1,4 +1,5 @@
 #include "gui.hpp"
+#include "textBoxGui.hpp"
 
 #include <boost/log/core.hpp>
 #include <boost/container/vector.hpp>
@@ -21,8 +22,9 @@ Gui::~Gui()
 {
     BOOST_LOG_TRIVIAL(info) << "Destroying renderer" << std::endl;
     SDL_DestroyRenderer(_renderer);
-    // BOOST_LOG_TRIVIAL(info) << "Destroying surface" << std::endl;
-    // SDL_FreeSurface(_screenSurface);
+    
+    BOOST_LOG_TRIVIAL(info) << "Destroying surface" << std::endl;
+    SDL_FreeSurface(_screenSurface);
 
     BOOST_LOG_TRIVIAL(info) << "Destroying window" << std::endl;
     SDL_DestroyWindow( _mainWindow );
@@ -33,10 +35,11 @@ Gui::~Gui()
 
 void Gui::run()
 {
-    boost::container::vector<SDL_Surface*> textSurface;
-    boost::container::vector<SDL_Texture*> text;
-    boost::container::vector<SDL_Rect> textBox;
-    int w = 0, h = 0;
+    // boost::container::vector<SDL_Surface*> textSurface;
+    // boost::container::vector<SDL_Texture*> text;
+    // boost::container::vector<SDL_Rect> textBox;
+    // int w = 0, h = 0;
+    TextBoxGUI* textBox = new TextBoxGUI();
 
     if ( _initializers.sdlInit < 0) {
         BOOST_LOG_TRIVIAL(fatal) << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
@@ -45,26 +48,32 @@ void Gui::run()
     }
 
     _textFont = TTF_OpenFont("roboto_regular.ttf", 10);
+    textBox->setup(
+        _investmentBL->run(),
+        _renderer,
+        _textFont,
+        _black
+    );
+    // for (std::string str : _investmentBL->run()) {
+    //     textSurface.push_back(TTF_RenderText_Solid(
+    //         _textFont,
+    //         str.c_str(),
+    //         _black
+    //     ));
 
-    for (std::string str : _investmentBL->run()) {
-        textSurface.push_back(TTF_RenderText_Solid(
-            _textFont,
-            str.c_str(),
-            _black
-        ));
-
-        text.push_back(SDL_CreateTextureFromSurface(_renderer, textSurface.back()));
+    //     text.push_back(SDL_CreateTextureFromSurface(_renderer, textSurface.back()));
         
-        SDL_Rect tmpBox;
-        tmpBox.x = (SCREEN_WIDTH / 5);
-        tmpBox.y = w;
-        tmpBox.w = textSurface.back()->w;
-        tmpBox.h = textSurface.back()->h;
+    //     SDL_Rect tmpBox;
+    //     tmpBox.x = (SCREEN_WIDTH / 5);
+    //     tmpBox.y = w;
+    //     tmpBox.w = textSurface.back()->w;
+    //     tmpBox.h = textSurface.back()->h;
 
-        textBox.push_back(tmpBox);
-        w += 16;
-        h += 16;
-    }
+    //     textBox.push_back(tmpBox);
+    //     w += 16;
+    //     h += 16;
+    // }
+
 
     SDL_StartTextInput();
     while (!_events.quit) {
@@ -72,11 +81,12 @@ void Gui::run()
         SDL_SetRenderDrawColor(_renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 		SDL_RenderClear(_renderer);
 
-        for (int i = 0; i < textBox.size(); i++) {
-            SDL_RenderFillRect(_renderer, &textBox[i]);
-            SDL_BlitSurface(_screenSurface, NULL, textSurface[i], &textBox[i]);
-            SDL_RenderCopy(_renderer, text[i], NULL, &textBox[i]);
-        }
+        // for (int i = 0; i < textBox.size(); i++) {
+        //     SDL_RenderFillRect(_renderer, &textBox[i]);
+        //     SDL_BlitSurface(_screenSurface, NULL, textSurface[i], &textBox[i]);
+        //     SDL_RenderCopy(_renderer, text[i], NULL, &textBox[i]);
+        // }
+        textBox->display(_renderer, _screenSurface);
 
         SDL_RenderPresent(_renderer);
         handleEvents();
@@ -115,8 +125,8 @@ void Gui::windowInit()
     } else {
         BOOST_LOG_TRIVIAL(info) << "Creating Renderer..." << std::endl;
         _renderer = SDL_CreateRenderer(
-            _mainWindow, 
-            -1, 
+            _mainWindow,
+            -1,
             SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
         );
         
